@@ -99,9 +99,8 @@ function widget($args, $instance) {
             $albumList = $wpdb->get_results($sql , ARRAY_A );
             $sql =  "SELECT * FROM $postTable WHERE `post_content` = '[picaGallery]' AND `post_status` = 'publish' LIMIT 1 " ;
             $postIdIs = $wpdb->get_var($sql);
-            
-     
-             $this->numOfAlbums = $instance['noOfCols'] ; 
+            $siteUrl = get_option('siteurl');
+            $this->numOfAlbums = $instance['noOfCols'] ; 
              $numOfAlbs = count($albumList);
              
                //post_content
@@ -320,7 +319,7 @@ function validateKey()
 	<form method="POST" action="" onSubmit="return validateKey()">
 		<h2 align="center">License Key</h2>
 		<div align="right">
-			<input type="text" name="get_license" id="get_license" value='<?php echo $get_key; ?>' size="58" /> <input
+			<input type="text" name="get_license" id="get_license" value='' size="58" /> <input
 				type="submit" name="submit_license" id="submit_license" value="Save" />
 		</div>
 	</form>
