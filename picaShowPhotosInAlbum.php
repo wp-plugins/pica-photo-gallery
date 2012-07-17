@@ -19,8 +19,7 @@
 ?>
 <!-- Adding Buy now and Apply licence button in photos page  -->
 <?php
-	global $wpdb;
-	$dbtoken = md5(DB_NAME);
+	global $wpdb;	
 	$folder   = dirname(plugin_basename(__FILE__));
 	$site_url = get_bloginfo('url');
 	
@@ -34,6 +33,7 @@
 
 function maccontroller() {
 	global $wpdb, $site_url, $folder;
+	$dbtoken = md5(DB_NAME);
 	$site_url = get_bloginfo('url');
 	$folder = dirname(plugin_basename(__FILE__));
 
