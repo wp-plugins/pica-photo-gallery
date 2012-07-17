@@ -3,7 +3,7 @@ Contributors: Apptha
 Tags: PICA Photo Gallery plugin,PICA Gallery, PICA Photos, Gallery, Wordpress Gallery
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 2.5
+Stable tag: 1.3
 PICA is a photo gallery extension which shows up your photos in an impressive and memorable way. The gallery extension easily organizes 
 
 your large set of digital photos, edit images and create multiple albums. 

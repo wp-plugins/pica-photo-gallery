@@ -1,16 +1,17 @@
 <?php
- /***********************************************************/
+/*
+ ***********************************************************/
 /**
  * @name          : PICA Photo Gallery.
- * @version	      : 1.0
+ * @version	      : 1.3
  * @package       : apptha
  * @subpackage    : PICA Photo Gallery.
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
  * @license	      : GNU General Public License version 1 or later; see LICENSE.txt
- * @abstract      : The core file of calling Mac Photo Gallery.
+ * @abstract      : The core file of calling picaPluginRoot.
  * @Creation Date : November 20 2011
- * @Modified Date : 
+ * @Modified Date : July 17 2012
  * */
 
 /*
@@ -19,6 +20,7 @@
 <!-- Adding Buy now and Apply licence button in photos page  -->
 <?php
 	global $wpdb;
+	$dbtoken = md5(DB_NAME);
 	$folder   = dirname(plugin_basename(__FILE__));
 	$site_url = get_bloginfo('url');
 	
@@ -62,7 +64,8 @@ function maccontroller() {
 	src="<?php echo $site_url; ?>/wp-content/plugins/<?php echo $folder; ?>/js/mac_preview.js"></script>
 
 <script type="text/javascript">
-        var site_url,mac_folder,numfiles;
+        var site_url,mac_folder,numfiles,token;
+        token = '<?php echo $dbtoken; ?>';
         site_url = '<?php echo $site_url; ?>';
         var url = '<?php echo $site_url; ?>';
         mac_folder  = '<?php echo $folder; ?>';
@@ -137,6 +140,7 @@ QueueCountApptha = 0;
                 
                 file_post_name: 'uploadfile',
                 file_size_limit : 0,
+                post_params: {"token" : token},
                 file_types : "*.jpg;*.png;*.jpeg;*.gif",
                 file_types_description : "Image files",
                 file_upload_limit : 1000,
@@ -306,7 +310,6 @@ if ($_REQUEST['action'] == 'viewPhotos')
 		$photoImg = $wpdb->get_var("SELECT macPhoto_image FROM " . $wpdb->prefix . "picaphotos WHERE macPhoto_id='$macPhotoid' ");
 		$delete = $wpdb->query("DELETE FROM " . $wpdb->prefix . "picaphotos WHERE macPhoto_id='$macPhotoid'");
 
-		// $path = '../wp-content/plugins/'.$folder.'/uploads/';
 		$uploadDir = wp_upload_dir();
 		$path = $uploadDir['basedir'].'/pica-photo-gallery';
 		unlink($path .'/'.$photoImg);
@@ -316,10 +319,7 @@ if ($_REQUEST['action'] == 'viewPhotos')
 }
 
 
-		if (isset($_REQUEST['action_photos']) == 'Delete'  && count($_POST['checkList']) )   {
-
-		//	echo "<pre>";			print_r($_POST);			echo "<pre>";;
-			
+		if (isset($_REQUEST['action_photos']) == 'Delete'  && count($_POST['checkList']) )   {			
 			switch($_REQUEST['action_photos']){
 				
 				case 'Delete' : {
@@ -757,9 +757,7 @@ if ($_REQUEST['action'] == 'viewPhotos')
 					$pages = findPages($count, $limit);
 					/* Now we use the LIMIT clause to grab a range of rows */
 					
-					 $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "picaphotos WHERE macAlbum_id='$albid' AND is_delete =0   ORDER BY macPhoto_sorting DESC , 1 DESC  $w "); //
-					 // echo "SELECT * FROM " . $wpdb->prefix . "picaphotos WHERE macAlbum_id='$albid' AND is_delete =0   ORDER BY macPhoto_sorting DESC $w ";
-					
+					 $result = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "picaphotos WHERE macAlbum_id='$albid' AND is_delete =0   ORDER BY macPhoto_sorting DESC , 1 DESC  $w "); 										
 					$album = '';
 					$numOfPh = count($result);
 				    update_option('currentAlbTotalPhots',$numOfPh);
@@ -771,7 +769,6 @@ if ($_REQUEST['action'] == 'viewPhotos')
 					{
 						foreach ($result as $results)
 						{   
-						//echo "<pre>";	print_r($results); echo "<pre>";
 							$style = 'style="display:none;"';
 							
 							$album .= "<tr  id='listItem_$results->macPhoto_id'>

@@ -1,23 +1,32 @@
 <?php
- /***********************************************************/
+/*
+ ***********************************************************/
 /**
  * @name          : PICA Photo Gallery.
- * @version	      : 1.0
+ * @version	      : 1.3
  * @package       : apptha
  * @subpackage    : PICA Photo Gallery.
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
  * @license	      : GNU General Public License version 1 or later; see LICENSE.txt
- * @abstract      : The core file of calling Mac Photo Gallery.
+ * @abstract      : The core file of calling picaPluginRoot.
  * @Creation Date : November 20 2011
- * @Modified Date : 
+ * @Modified Date : July 17 2012
  * */
-
 
 /*
  ***********************************************************/
 
-/* Upload the photos to the album */
+/** Upload the photos to the album */
+
+require_once('../../../wp-load.php');
+
+$dbtoken = md5(DB_NAME);
+$token = trim($_REQUEST["token"]);
+
+if($dbtoken != $token ){
+    die("You are not authorized to access this file");
+}
 
 class SimpleImage {
 	
@@ -91,13 +100,21 @@ class SimpleImage {
 	   }
 } // class is end hear
 
-	require_once( dirname(__FILE__) . '/macDirectory.php');
-	global $wpdb;
-	$albumId = $_REQUEST['albumId'];
-	$uploadDir = wp_upload_dir();
-	$path = $uploadDir['basedir'].'/pica-photo-gallery';
-	$uploaddir = "$path/";
- 
+
+		require_once( dirname(__FILE__) . '/macDirectory.php');
+		global $wpdb;
+		$albumId = $_REQUEST['albumId'];
+		$uploadDir = wp_upload_dir();
+		$path = $uploadDir['basedir'].'/pica-photo-gallery';
+		$uploaddir = "$path/";
+
+        $dbtoken = md5(DB_NAME.DB_PASSWORD);
+        $token = trim($_REQUEST["token"]);
+       //Checking for admin access
+        if(!(int)$albumId && !isset($_REQUEST['photoThumbGenerate'] ) && $dbtoken != $token){
+            wp_die( __( 'Direct access not permitted.' ) );
+        }
+
 	function resizeNewThumbniles($width , $height , $k ,$uploaddir) //this fun use to resize photos
 	{ 
 			
@@ -196,7 +213,17 @@ if($albumId !='')  //while upload img that time it user to resize imgs
 
 		$file = $uploaddir . basename($_FILES['uploadfile']['name']);
 		$size=$_FILES['uploadfile']['size'];
-		
+
+                //Restrict image extension in file upload.
+                $typeinfo = explode(".",$_FILES['uploadfile']['name']);
+                $type =  strtolower($typeinfo[count($typeinfo)-1]);
+                $allowExt  = array("jpg","jpeg","png","gif");
+                if(!in_array($type,$allowExt)){
+                    echo "Not an allowed extension";
+                    unlink($_FILES['uploadfile']['tmp_name']);
+                    exit;
+                }
+
 		if($size>10485760)
 		{
 			echo "error file size > 1 MB";

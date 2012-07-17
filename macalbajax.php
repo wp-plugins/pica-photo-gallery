@@ -1,22 +1,31 @@
-
 <?php
 /*
  ***********************************************************/
 /**
  * @name          : PICA Photo Gallery.
- * @version	      : 1.0
+ * @version	      : 1.3
  * @package       : apptha
  * @subpackage    : PICA Photo Gallery.
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
  * @license	      : GNU General Public License version 1 or later; see LICENSE.txt
- * @abstract      : The core file of calling Mac Photo Gallery.
+ * @abstract      : The core file of calling picaPluginRoot.
  * @Creation Date : November 20 2011
- * @Modified Date :
+ * @Modified Date : July 17 2012
  * */
 
 /*
  ***********************************************************/
+?>
+<?php
+require_once('../../../wp-load.php');
+
+$dbtoken = md5(DB_NAME);
+$token = trim($_REQUEST["token"]);
+
+if($dbtoken != $token ){
+    die("You are not authorized to access this file");
+}
 ?>
 <?php require_once( dirname(__FILE__) . '/macDirectory.php');
 $site_url = get_bloginfo('url');

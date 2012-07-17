@@ -3,7 +3,7 @@
  Plugin Name: PICA Photo Gallery
  Plugin URI: http://www.apptha.com/category/extension/Wordpress/PICA-Photo-Gallery
  Description: PICA Photo Gallery make it easy for you to organize  your digital photos, then create online albums to share with friends, family & the world. You can show your photos at their best It allow you Manage the stack of photos in categories as featured photos as seen in Picasa Gallery. Photo view with facebook share/download/zoom in/zoom out. Whole Design replicates Picasa design.
-Facility to manage list of album under featured photos.
+ Facility to manage list of album under featured photos.
  Version:1.0
  Author: Apptha
  Author URI: http://www.apptha.com
@@ -90,6 +90,7 @@ function widget($args, $instance) {
             // WIDGET CODE GOES HERE
             global $wpdb;global $wp_rewrite;  
             $uploadDir = wp_upload_dir();
+             $siteUrl = get_option('siteurl');
             $photosUploadedDir = $path = $uploadDir['baseurl'] . '/pica-photo-gallery'; //photos were uploaded in this DIR
 	  		$pWidth = $instance['photoW'].'px';
         
@@ -99,8 +100,9 @@ function widget($args, $instance) {
             $albumList = $wpdb->get_results($sql , ARRAY_A );
             $sql =  "SELECT * FROM $postTable WHERE `post_content` = '[picaGallery]' AND `post_status` = 'publish' LIMIT 1 " ;
             $postIdIs = $wpdb->get_var($sql);
-            $siteUrl = get_option('siteurl');
-            $this->numOfAlbums = $instance['noOfCols'] ; 
+           
+     
+             $this->numOfAlbums = $instance['noOfCols'] ; 
              $numOfAlbs = count($albumList);
              
                //post_content
@@ -215,12 +217,10 @@ function show_picaMenu()
 				$macPhotos = new macPhotos();
 				break;
 			case 'picaSettings' :
-
 				include_once (dirname(__FILE__) . '/picaPluginRoot.php'); // admin functions
 				picaSettings1();
 				break;
 			case 'picatags' :
-
 				include_once (dirname(__FILE__) . '/picaTags.php'); // admin functions
 				break;
 

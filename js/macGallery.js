@@ -2,23 +2,22 @@
  ***********************************************************/
 /**
  * @name          : PICA Photo Gallery.
- * @version	      : 1.0
+ * @version	      : 1.3
  * @package       : apptha
  * @subpackage    : PICA Photo Gallery.
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
  * @license	      : GNU General Public License version 1 or later; see LICENSE.txt
- * @abstract      : The core file of calling Mac Photo Gallery.
+ * @abstract      : The core file of calling picaPluginRoot.
  * @Creation Date : November 20 2011
- * @Modified Date : 
+ * @Modified Date : July 17 2012
  * */
-
 
 /*
  ***********************************************************/
 
 //For Showing the list of Album in adjacent
-
+var token = document.getElementById('token').value;
 function macAlbum(pages)
 {
 
@@ -96,7 +95,7 @@ else
         document.getElementById('showAlbumedit_'+macAlbum_id).innerHTML = xmlhttp.responseText
     }
   }
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macalbajax.php?macAlbumname_id='+macAlbum_id,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macalbajax.php?macAlbumname_id='+macAlbum_id+'&token='+token,true);
 xmlhttp.send();
 
 }
@@ -108,6 +107,10 @@ function updAlbname(macAlbum_id)
 var macAlbum_id = macAlbum_id;
 var macAlbum_name   = document.getElementById('macedit_name_'+macAlbum_id).value;
 var macAlbum_desc   = document.getElementById('macAlbum_desc_'+macAlbum_id).value;
+
+var regex = /(<([^>]+)>)/ig;
+macAlbum_name = macAlbum_name.replace(regex, '');
+macAlbum_desc = macAlbum_desc.replace(regex, '');
 
   if (window.XMLHttpRequest)
 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -127,7 +130,7 @@ else
     }
   }
  
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macalbajax.php?macAlbum_id='+macAlbum_id+'&macAlbum_name='+macAlbum_name+'&macAlbum_desc='+macAlbum_desc,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macalbajax.php?macAlbum_id='+macAlbum_id+'&macAlbum_name='+macAlbum_name+'&macAlbum_desc='+macAlbum_desc+'&token='+token,true);
 xmlhttp.send();
 }
 //updating gallery
@@ -919,7 +922,7 @@ function checkIsEmpty(getid){
 		function showsinglephotopage(url , phid , photonum)
 		{
 		
-			url = url+'&pid='+photonum;
+			url = url+'&pid='+photonum+'#content';
 			window.location.href = url;
 		}
 		function showPhotoTitleStyle(idis){
@@ -1112,7 +1115,7 @@ a condition and only a single check box came in a list.
 					}
 					
 			   			   		if(phid){ // go to album photos
-						   			window.location.href = url+albid+'&pid='+phid;
+						   			window.location.href = url+albid+'&pid='+phid+'#content';
 						   		}
 						   		else{
 						   			window.location.href = url+albid;

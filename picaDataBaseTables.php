@@ -3,19 +3,22 @@
  ***********************************************************/
 /**
  * @name          : PICA Photo Gallery.
- * @version	      : 1.0
+ * @version	      : 1.3
  * @package       : apptha
  * @subpackage    : PICA Photo Gallery.
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
  * @license	      : GNU General Public License version 1 or later; see LICENSE.txt
- * @abstract      : The core file of calling Mac Photo Gallery.
+ * @abstract      : The core file of calling picaPluginRoot.
  * @Creation Date : November 20 2011
- * @Modified Date :
+ * @Modified Date : July 17 2012
  * */
 
-/*                            All DataBase operactions are doing hear for PICA Photo Gallery
+/*
  ***********************************************************/
+
+/** All DataBase operactions are doing hear for PICA Photo Gallery */
+ 
 
 function picaGallery_install()
 {

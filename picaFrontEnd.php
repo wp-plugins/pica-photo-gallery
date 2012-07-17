@@ -1,19 +1,22 @@
 <?php
 /*
- * ********************************************************* */
+ ***********************************************************/
 /**
  * @name          : PICA Photo Gallery.
- * @version	      : 1.0
+ * @version	      : 1.3
  * @package       : apptha
  * @subpackage    : PICA Photo Gallery.
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
  * @license	      : GNU General Public License version 1 or later; see LICENSE.txt
- * @abstract      : The core file of calling Mac Photo Gallery.
+ * @abstract      : The core file of calling picaPluginRoot.
  * @Creation Date : November 20 2011
- * @Modified Date : 
+ * @Modified Date : July 17 2012
  * */
-/*             This class is useful for showing Entire Front end of PICA Photo Gallery 				  */
+
+/*
+ ***********************************************************/
+/** This class is useful for showing Entire Front end of PICA Photo Gallery */
 class pica_contusPicagallery {
 	
 	
@@ -57,6 +60,7 @@ class pica_contusPicagallery {
        		
  // ********************************** SHOW SINGLE PHOTO FROM ALBUM  ***************************************************************
 			
+       
 		if( isset( $_REQUEST['pid'] ) || isset($_REQUEST['pld'])  )
 		{
 		
@@ -145,8 +149,9 @@ class pica_contusPicagallery {
 
 			 $singlePhotoDivStyle = "style='vertical-align: middle;'" ;
 			 $siglePhotoOptionsStyle = '';
-			 $siglePhotoAppthaLable = 'style = left:130px';
-		?>
+			 $siglePhotoAppthaLable = 'style = left:76px';
+			 $siglePhotoDescription = "style = 'margin:0px 80px;' ";
+			 ?>
 				<style>
 				#content{
 						margin:0px;
@@ -259,8 +264,19 @@ class pica_contusPicagallery {
 				</tr>
 			</tbody>
 		</table>
-
-		<div <?php echo $photoDescriStyle; ?>  class = "photoDescription" ><?php echo ucfirst($ldescr); ?>  </div>
+		
+		
+		<?php  
+			$ldescr = ucfirst($ldescr);
+		 if(!$picaSetting['pica-general-fac-com']){
+		 
+		 	echo "<div $siglePhotoDescription;  class = 'photoDescription' > $ldescr </div>";
+		 }
+		 else{
+				echo "<div $photoDescriStyle;  class = 'photoDescription' >$ldescr </div>"; 	
+		 }
+		?> 
+		
 	
 
 <?php   
