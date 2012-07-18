@@ -168,7 +168,8 @@ else if ($_REQUEST['macCovered_id'] != '')
 else if($_REQUEST['macPhoto_name'] != '')
 {
 	$macPhoto_id =$_REQUEST['macPhotos_id'];
-	$macPhoto_name =  addslashes($_REQUEST['macPhoto_name']);
+	$macPhoto_name =  strip_tags($_REQUEST['macPhoto_name']);
+	$macPhoto_name = preg_replace("/[^a-zA-Z0-9\/_-]/", '', $macPhoto_name);
 	$sql = $wpdb->get_results("UPDATE " . $wpdb->prefix . "picaphotos SET `macPhoto_name` = '$macPhoto_name' WHERE `macPhoto_id` = $macPhoto_id");
 	echo $macPhoto_name;
 }
@@ -203,7 +204,8 @@ else if($_REQUEST['macGallery_id'] != '')
 	$div .= '</form/>' ;
 	echo $div;
 
-	$macGal_name =  addslashes($_REQUEST['macGallery_name']) ;
+	$macGal_name =  strip_tags($_REQUEST['macGallery_name']) ;
+	$macGal_name = preg_replace("/[^a-zA-Z0-9\/_-]/", '', $macGal_name);
 	$macGallery_id   = $_REQUEST ['macGallery_id'];
 	$sql = $wpdb->query("UPDATE " . $wpdb->prefix . "picagallery SET `macGallery_name` = '" .$macGal_name. "' WHERE `macGallery_id` = ".$macGallery_id);
 	echo $macGal_name;
@@ -211,8 +213,8 @@ else if($_REQUEST['macGallery_id'] != '')
 //  Album description update
 else if($_REQUEST['macGallery_id'] != '')
 {
-	$macGal_name =  addslashes($_REQUEST['macGallery_name']) ;
-
+	$macGal_name =  strip_tags($_REQUEST['macGallery_name']) ;
+	$macGal_name = preg_replace("/[^a-zA-Z0-9\/_-]/", '', $macGal_name);
 	$macGallery_id   = $_REQUEST['macGallery_id'];
 	$sql = $wpdb->query("UPDATE " . $wpdb->prefix . "picagallery SET `macGallery_name` = '$macGal_name' WHERE `macGallery_id` = '$macGallery_id'");
 	echo $macGal_name;
@@ -222,8 +224,9 @@ else if($_REQUEST['macGallery_id'] != '')
 else if($_REQUEST['macAlbum_id'] != '' )
 {
 	$macAlbum_id =   $_GET['macAlbum_id'];
-	$macAlbum_name = $_GET['macAlbum_name'];
-	$macAlbum_desc = $_GET['macAlbum_desc'];
+	$macAlbum_name = strip_tags($_GET['macAlbum_name']);
+	$macAlbum_name = preg_replace("/[^a-zA-Z0-9\/_-]/", '', $macAlbum_name);
+	$macAlbum_desc = strip_tags($_GET['macAlbum_desc']);
 	$sql = $wpdb->get_results("UPDATE " . $wpdb->prefix . "picaalbum SET `macAlbum_name`='$macAlbum_name',`macAlbum_description` ='$macAlbum_desc'
     							 WHERE `macAlbum_id` = '$macAlbum_id'");
 
@@ -232,7 +235,7 @@ else if($_REQUEST['macAlbum_id'] != '' )
 //  Album description update
 else
 {
-	$macAlbum_desc =  addslashes($_REQUEST['macAlbum_desc']) ;
+	$macAlbum_desc =  strip_tags($_REQUEST['macAlbum_desc']) ;
 	$macAlbum_id   = $_REQUEST['macAlbum_id'];
 	$sql = $wpdb->query("UPDATE " . $wpdb->prefix . "picaalbum SET `macAlbum_description` = '$macAlbum_desc' WHERE `macAlbum_id` = '$macAlbum_id'");
 	echo $macAlbum_desc;
