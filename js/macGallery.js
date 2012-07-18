@@ -164,7 +164,8 @@ function updGalname(macGallery_id)
 {
 var macGallery_id = macGallery_id;
 var macGal_name   = document.getElementById('macgaledit_name_'+macGallery_id).value;
- // alert(macGal_name);
+var regex = /(<([^>]+)>)/ig;
+macGal_name = macGal_name.replace(regex, '');
 
   if (window.XMLHttpRequest)
 {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -187,7 +188,7 @@ else
     }
   }
  //alert(macGallery_id+'----------'+macGal_name);
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macalbajax.php?macGallery_id='+macGallery_id+'&macGallery_name='+macGal_name,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macalbajax.php?macGallery_id='+macGallery_id+'&macGallery_name='+macGal_name+'&token='+token,true);
 xmlhttp.send();
 }
 
@@ -340,7 +341,7 @@ else
         window.location = self.location;
     }
   }
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macdelAlbum='+macAlbum_id,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macdelAlbum='+macAlbum_id+'&token='+token,true);
 xmlhttp.send();
 }
 
@@ -412,7 +413,7 @@ else
         document.getElementById('edit_macPhotos').innerHTML = xmlhttp.responseText
     }
   }
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macEdit='+rst,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macEdit='+rst+'&token='+token,true);
 xmlhttp.send();
  }
 
@@ -426,11 +427,14 @@ function upd_disphoto(queue,albid)
      var macedit_phtid = document.getElementById("macedit_id_"+i).value;
      var macedit_name  = document.getElementById("macedit_name_"+i).value;
      var macedit_desc  = document.getElementById("macedit_desc_"+i).value;
-dragdr = jQuery.noConflict();
-dragdr.ajax({
+     var regex = /(<([^>]+)>)/ig;
+     macedit_name = macedit_name.replace(regex, '');
+     macedit_desc = macedit_desc.replace(regex, '');
+	dragdr = jQuery.noConflict();
+	dragdr.ajax({
     method:"GET",
        url: site_url+'/wp-content/plugins/pica-photo-gallery/macphtajax.php',
-       data : "macedit_phtid="+macedit_phtid+"&macedit_name="+macedit_name+"&macedit_desc="+macedit_desc,
+       data : "macedit_phtid="+macedit_phtid+"&macedit_name="+macedit_name+"&macedit_desc="+macedit_desc+"&token="+token,
        asynchronous:false,
        error: function(html){
     	   //alert(xmlhttp.responseText);
@@ -466,7 +470,7 @@ else
         document.getElementById('photo_delete_'+macdeleteId).style.visibility = 'hidden';
     }
   }
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macdeleteId='+macdeleteId,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macdeleteId='+macdeleteId+'&token='+token,true);
 xmlhttp.send();
  }
  }
@@ -490,7 +494,7 @@ else
         document.getElementById('edit_macDesc').innerHTML = xmlhttp.responseText
     }
   }
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macphotoDesc_id='+macPhoto_id,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macphotoDesc_id='+macPhoto_id+'&token='+token,true);
 xmlhttp.send();
  }
  if(typeof String.prototype.trim !== 'function') {
@@ -503,6 +507,8 @@ xmlhttp.send();
 function updPhotoname(macPhotos_id)
 {
 var macPhoto_name = document.getElementById('macPhoto_name_'+macPhotos_id).value;
+var regex = /(<([^>]+)>)/ig;
+macPhoto_name = macPhoto_name.replace(regex, '');
 macPhoto_name = macPhoto_name.trim();
 	
 	if(macPhoto_name == ''){
@@ -527,7 +533,7 @@ else
       document.getElementById('showPhotosedit_'+macPhotos_id).style.display = 'none';
     }
   }
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macalbajax.php?macPhoto_name='+macPhoto_name+'&macPhotos_id='+macPhotos_id,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macalbajax.php?macPhoto_name='+macPhoto_name+'&macPhotos_id='+macPhotos_id+'&token='+token,true);
 xmlhttp.send();
 }
 // View Photo description Update
@@ -547,6 +553,8 @@ function phototoggle(macPhoto_id) {
 function macdesc_updt(macPhoto_id)
 {
 var macPhoto_desc = document.getElementById('macPhoto_desc_'+macPhoto_id).value;
+var regex = /(<([^>]+)>)/ig;
+macPhoto_desc = macPhoto_desc.replace(regex, '');
 var ele = document.getElementById("toggleText"+macPhoto_id);
 	
     if (window.XMLHttpRequest)
@@ -565,7 +573,7 @@ else
       ele.style.display = "none";
     }
   }
-xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macPhoto_desc='+macPhoto_desc+'&macPhoto_id='+macPhoto_id,true);
+xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macPhoto_desc='+macPhoto_desc+'&macPhoto_id='+macPhoto_id+'&token='+token,true);
 
 xmlhttp.send();
 }
@@ -1085,7 +1093,7 @@ a condition and only a single check box came in a list.
 		        }
 		
 				function displaySelectedAlbum(albid,pageurl){
-					//alert(albid+'---------'+pageurl);
+					
 					window.location = pageurl+'albid='+albid;
 					
 					

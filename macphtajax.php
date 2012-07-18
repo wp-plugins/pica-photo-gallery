@@ -17,6 +17,15 @@
 /*
  ***********************************************************/
 
+require_once('../../../wp-load.php');
+
+$dbtoken = md5(DB_NAME);
+$token = trim($_REQUEST["token"]);
+
+if($dbtoken != $token ){
+    die("You are not authorized to access this file");
+}
+
 require_once( dirname(__FILE__) . '/macDirectory.php');
 	$maceditId = $_REQUEST['macEdit'];
 	$site_url = get_bloginfo('url');
@@ -33,7 +42,7 @@ require_once( dirname(__FILE__) . '/macDirectory.php');
 	 }
 	  else if(($_REQUEST['macPhoto_desc']) != '')
 	 {
-	     $macPhoto_desc = $_REQUEST['macPhoto_desc'] ;
+	     $macPhoto_desc = strip_tags($_REQUEST['macPhoto_desc']);
 	     $macPhoto_id   = $_REQUEST['macPhoto_id'];
 	     $sql = $wpdb->query("UPDATE " . $wpdb->prefix . "picaphotos SET `macPhoto_desc` = '$macPhoto_desc' WHERE `macPhoto_id` = '$macPhoto_id'");
 	 	 echo $macPhoto_desc;
@@ -64,8 +73,9 @@ require_once( dirname(__FILE__) . '/macDirectory.php');
 	 }
 	  else if($_REQUEST['macedit_phtid'] != '')
 	 {
-	    	$macedit_name = addslashes($_REQUEST['macedit_name']);
-	        $macedit_desc = addslashes($_REQUEST['macedit_desc']);
+	    	$macedit_name = strip_tags($_REQUEST['macedit_name']);
+	    	$macedit_name = preg_replace("/[^a-zA-Z0-9\/_-]/", '', $macedit_name);
+	        $macedit_desc = strip_tags($_REQUEST['macedit_desc']);
 	        $macedit_id   = $_REQUEST['macedit_phtid'];
 	      
 	        $sql = $wpdb->query("UPDATE " . $wpdb->prefix . "picaphotos SET `macPhoto_name` = '$macedit_name', `macPhoto_desc` = '$macedit_desc' WHERE `macPhoto_id` = '$macedit_id'");
