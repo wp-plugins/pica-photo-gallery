@@ -527,9 +527,9 @@ else
   xmlhttp.onreadystatechange=function()
   {
     if (xmlhttp.readyState==4)
-    {
-       
+    {       
       document.getElementById('macPhotos_'+macPhotos_id).innerHTML = xmlhttp.responseText;
+      document.getElementById('macPhoto_name_'+macPhotos_id).value = xmlhttp.responseText;      
       document.getElementById('showPhotosedit_'+macPhotos_id).style.display = 'none';
     }
   }
@@ -569,12 +569,12 @@ else
   {
     if (xmlhttp.readyState==4)
     {
-      document.getElementById('display_txt_'+macPhoto_id).innerHTML = xmlhttp.responseText
+      document.getElementById('display_txt_'+macPhoto_id).innerHTML = xmlhttp.responseText;
+      document.getElementById('macPhoto_desc_'+macPhoto_id).value = xmlhttp.responseText;      
       ele.style.display = "none";
     }
   }
 xmlhttp.open("GET",site_url+'/wp-content/plugins/'+mac_folder+'/macphtajax.php?macPhoto_desc='+macPhoto_desc+'&macPhoto_id='+macPhoto_id+'&token='+token,true);
-
 xmlhttp.send();
 }
 function macFeatured_status(addCover,albumId,macPhoto_id , flag)  //falg is for featured img select
@@ -1093,7 +1093,7 @@ a condition and only a single check box came in a list.
 		        }
 		
 				function displaySelectedAlbum(albid,pageurl){
-					
+					//alert(albid+'---------'+pageurl);
 					window.location = pageurl+'albid='+albid;
 					
 					
