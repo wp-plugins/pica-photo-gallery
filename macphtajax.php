@@ -74,7 +74,7 @@ require_once( dirname(__FILE__) . '/macDirectory.php');
 	  else if($_REQUEST['macedit_phtid'] != '')
 	 {
 	    	$macedit_name = strip_tags($_REQUEST['macedit_name']);
-	    	$macedit_name = preg_replace("/[^a-zA-Z0-9\/_-]/", '', $macedit_name);
+	    	$macedit_name = preg_replace("/[^a-zA-Z0-9\/_-\s]/", '', $macedit_name);
 	        $macedit_desc = strip_tags($_REQUEST['macedit_desc']);
 	        $macedit_id   = $_REQUEST['macedit_phtid'];
 	      
