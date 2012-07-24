@@ -27,9 +27,9 @@ $filepart = explode(".",$timg);
 $fileExt = '';
 $allowedExtensions = array("jpg", "jpeg", "png", "gif");
  if(preg_grep( "/$filepart[1]/i" , $allowedExtensions )){
- 	$fileExt = 'Allow';
+ 	$fileExt = true;
  }
-if(file_exists($file) && (count($filepart) === 2) && $fileExt != ''){
+if(file_exists($file) && (count($filepart) === 2) && $fileExt == '1'){
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
     header('Content-Disposition: attachment; filename='.basename($file));
